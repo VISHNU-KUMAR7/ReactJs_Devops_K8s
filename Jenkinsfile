@@ -1,5 +1,12 @@
 pipeline {
     agent any
+
+    environment {
+        DOCKER_HUB_USERNAME = credentials('docker-hub-username')
+        DOCKER_HUB_PASSWORD = credentials('docker-hub-password')
+        imageName = "my-reactjs-image"
+        imageTag = env.BUILD_NUMBER
+    }
     
     stages {
         stage('Clone Repository') {
@@ -21,7 +28,6 @@ pipeline {
             steps {
                 script {
                     // Define variables
-                    def imageName = 'my-reactjs-image'
                     def dockerfilePath = 'Dockerfile' // Path to your Dockerfile
 
                     // Build the Docker image
@@ -42,20 +48,22 @@ pipeline {
         //     }
         // }
         
-        // stage('Push Docker Image') {
-        //     steps {
-        //         // Push the Docker image to a registry
-        //         script {
-        //             def imageName = "my-docker-image"
-        //             def imageTag = env.BUILD_NUMBER
-        //             def registryUrl = "docker.registry.com"
+        stage('Push Docker Image') {
+            steps {
+                // Push the Docker image to a registry
+                script {
                     
-        //             docker.withRegistry("${registryUrl}", 'docker-credentials') {
-        //                 docker.image("${imageName}:${imageTag}").push()
-        //             }
-        //         }
-        //     }
-        // }
+                    // def registryUrl = "docker.registry.com"
+                    
+                    // docker.withRegistry("${registryUrl}", 'docker-credentials') {
+                    //     docker.image("${imageName}:${imageTag}").push()
+                    // }
+                    sh "sudo docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD"
+                    sh "sudo docker push ${imageName}:${imageTag}'
+
+                }
+            }
+        }
     }
     
     // post {

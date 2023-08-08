@@ -7,7 +7,7 @@ pipeline {
         imageName = "my-reactjs-image"
         imageTag = "${env.BUILD_NUMBER}"
         PREVIOUS_BUILD_NUMBER = sh(script: 'echo ${BUILD_ID%_*}', returnStdout: true).trim()
-        prevImageTag "${PREVIOUS_BUILD_NUMBER}"
+        prevImageTag = "${PREVIOUS_BUILD_NUMBER}"
     }
     
     stages {

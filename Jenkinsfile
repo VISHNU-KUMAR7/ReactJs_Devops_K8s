@@ -13,6 +13,22 @@ pipeline {
                           userRemoteConfigs: [[url: 'https://github.com/VISHNU-KUMAR7/ReactJs_Devops_K8s.git']]])
             }
         }
+
+        stage('Build Docker Image') {
+            agent {
+                label 'node1'
+            }
+            steps {
+                script {
+                    // Define variables
+                    def imageName = 'my-reactjs-image'
+                    def dockerfilePath = 'Dockerfile' // Path to your Dockerfile
+
+                    // Build the Docker image
+                    docker.image(imageName).build(dockerfilePath)
+                }
+            }
+        }
         
         // stage('Build Docker Image') {
         //     steps {

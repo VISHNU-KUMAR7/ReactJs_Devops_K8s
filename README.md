@@ -1,3 +1,7 @@
+### ReactJs_Devops_K8s
+
+Frontend(Reactjs)----------> SCM(Github)-----------> CI/CD(Jenkins) ----------->Container(Docker)----->ContainerOrchestration(K8s)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

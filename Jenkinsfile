@@ -49,6 +49,9 @@ pipeline {
         // }
         
         stage('Push Docker Image') {
+            agent {
+                label 'node1'
+            }
             steps {
                 // Push the Docker image to a registry
                 script {
@@ -58,6 +61,7 @@ pipeline {
                     // docker.withRegistry("${registryUrl}", 'docker-credentials') {
                     //     docker.image("${imageName}:${imageTag}").push()
                     // }
+                    
                     sh "sudo docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD"
                     sh "sudo docker push ${imageName}:${imageTag}"
 

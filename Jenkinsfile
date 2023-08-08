@@ -8,6 +8,7 @@ pipeline {
         imageTag = "${env.BUILD_NUMBER}"
         PREVIOUS_BUILD_NUMBER = sh(script: 'echo ${BUILD_ID%_*}', returnStdout: true).trim()
         prevImageTag = "${PREVIOUS_BUILD_NUMBER}"
+        containerName = "reactjs"
     }
     
     stages {
@@ -76,10 +77,10 @@ pipeline {
              steps {
                 // Push the Docker image to a registry
                 script {
-                sh "sudo docker pull ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
-                sh "sudo docker start ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
-                // sh "docker stop ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
-                // sh "docker rm ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
+                    sh "docker stop ${containerName}"
+                    sh "docker rm ${containerName}"
+                    sh "sudo docker pull ${DOCKER_HUB_USERNAME}/${imageName}:${imageTag}"
+                    sh "docker run --name ${containerName} -d -p 80:80 ${DOCKER_HUB_USERNAME}/${imageName}:${imageTag}"
                 }
             }
         }

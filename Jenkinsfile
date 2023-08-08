@@ -31,7 +31,7 @@ pipeline {
                     def dockerfilePath = 'Dockerfile' // Path to your Dockerfile
 
                     // Build the Docker image
-                    sh "sudo docker build -t ${imageName} ."
+                    sh "sudo docker build -t ${imageName}:${imageTag} ."
                 }
             }
         }

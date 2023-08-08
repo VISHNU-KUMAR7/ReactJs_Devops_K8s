@@ -76,8 +76,8 @@ pipeline {
              steps {
                 // Push the Docker image to a registry
                 script {
-                sh "docker pull ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
-                sh "docker start ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
+                sh "sudo docker pull ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
+                sh "sudo docker start ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
                 // sh "docker stop ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
                 // sh "docker rm ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
                 }

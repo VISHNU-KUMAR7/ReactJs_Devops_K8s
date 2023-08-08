@@ -72,11 +72,14 @@ pipeline {
             agent {
                 label 'node1'
             }
-            script{
+             steps {
+                // Push the Docker image to a registry
+                script {
                 sh "docker pull ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
                 sh "docker start ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
                 // sh "docker stop ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
                 // sh "docker rm ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
+                }
             }
         }
     }

@@ -5,7 +5,7 @@ pipeline {
         DOCKER_HUB_USERNAME = credentials('docker-hub-username')
         DOCKER_HUB_PASSWORD = credentials('docker-hub-password')
         imageName = "my-reactjs-image"
-        imageTag = env.BUILD_NUMBER
+        imageTag = "${env.BUILD_NUMBER}"
     }
     
     stages {

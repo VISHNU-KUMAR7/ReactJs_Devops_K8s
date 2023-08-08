@@ -25,7 +25,7 @@ pipeline {
                     def dockerfilePath = 'Dockerfile' // Path to your Dockerfile
 
                     // Build the Docker image
-                    docker.image(imageName).build(dockerfilePath)
+                    sh 'sudo docker build -t my-react-app .'
                 }
             }
         }

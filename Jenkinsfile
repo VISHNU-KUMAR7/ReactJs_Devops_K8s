@@ -55,16 +55,13 @@ pipeline {
             steps {
                 // Push the Docker image to a registry
                 script {
-                    
-                    // def registryUrl = "docker.registry.com"
-                    
-                    // docker.withRegistry("${registryUrl}", 'docker-credentials') {
+                                        // def registryUrl = "docker.registry.com"
+                                        // docker.withRegistry("${registryUrl}", 'docker-credentials') {
                     //     docker.image("${imageName}:${imageTag}").push()
                     // }
                     
                     sh "sudo docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD"
-                    sh "sudo docker push ${imageName}:${imageTag}"
-
+                    sh "sudo docker push ${DOCKER_HUB_USERNAME}/${imageName}:${imageTag}"
                 }
             }
         }

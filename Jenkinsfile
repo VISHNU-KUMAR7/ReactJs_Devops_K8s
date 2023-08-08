@@ -6,6 +6,8 @@ pipeline {
         DOCKER_HUB_PASSWORD = credentials('docker-hub-password')
         imageName = "my-reactjs-image"
         imageTag = "${env.BUILD_NUMBER}"
+        PREVIOUS_BUILD_NUMBER = sh(script: 'echo ${BUILD_ID%_*}', returnStdout: true).trim()
+        prevImageTag "${PREVIOUS_BUILD_NUMBER}"
     }
     
     stages {
@@ -63,6 +65,18 @@ pipeline {
                     sh "sudo docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD"
                     sh "sudo docker push ${DOCKER_HUB_USERNAME}/${imageName}:${imageTag}"
                 }
+            }
+        }
+
+        stage('Run Docker Image'){
+            agent {
+                label 'node1'
+            }
+            script{
+                sh "docker pull ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
+                sh "docker start ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
+                // sh "docker stop ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
+                // sh "docker rm ${DOCKER_HUB_USERNAME}/${imageName}:${prevImageTag}"
             }
         }
     }
